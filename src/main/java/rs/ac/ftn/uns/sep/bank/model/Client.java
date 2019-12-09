@@ -1,5 +1,6 @@
 package rs.ac.ftn.uns.sep.bank.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Client {
 
     private String lastName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private Set<Account> accounts;
 }
