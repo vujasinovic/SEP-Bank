@@ -1,5 +1,6 @@
 package rs.ac.ftn.uns.sep.bank.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "account")
     private Set<Card> cards;
 
