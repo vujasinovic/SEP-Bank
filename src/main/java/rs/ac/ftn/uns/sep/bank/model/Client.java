@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import java.util.Set;
 
 @Entity
@@ -16,6 +17,12 @@ public class Client {
     private String firstName;
 
     private String lastName;
+
+    @Max(30)
+    private String merchantId;
+
+    @Max(30)
+    private Long merchantPassword;
 
     @JsonIgnore
     @OneToMany(mappedBy = "client")
