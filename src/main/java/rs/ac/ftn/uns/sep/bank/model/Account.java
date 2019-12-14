@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Entity
@@ -20,4 +22,7 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "client", nullable = false)
     private Client client;
+
+    @Digits(integer = 10, fraction = 2)
+    private BigDecimal amount;
 }
