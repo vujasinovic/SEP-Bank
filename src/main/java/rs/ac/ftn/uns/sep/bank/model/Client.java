@@ -1,11 +1,9 @@
 package rs.ac.ftn.uns.sep.bank.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import java.util.Set;
+import javax.validation.constraints.Size;
 
 @Entity
 @Data
@@ -18,13 +16,13 @@ public class Client {
 
     private String lastName;
 
-    @Max(30)
+    @Size(max = 30)
     private String merchantId;
 
-    @Max(30)
-    private Long merchantPassword;
+    @Size(max = 100)
+    private String merchantPassword;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "client")
-    private Set<Account> accounts;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id", unique = true)
+    private Account account;
 }

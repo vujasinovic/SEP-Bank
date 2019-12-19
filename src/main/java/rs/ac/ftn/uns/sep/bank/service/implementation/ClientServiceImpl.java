@@ -19,4 +19,9 @@ public class ClientServiceImpl implements ClientService {
     public List<Client> findAll() {
         return clientRepository.findAll();
     }
+
+    @Override
+    public Client findByMerchantId(String merchantId) {
+        return clientRepository.findByMerchantId(merchantId);
+    }
 }
