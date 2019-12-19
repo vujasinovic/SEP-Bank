@@ -6,6 +6,8 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
+
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,10 +21,13 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private Set<Card> cards;
 
-    @ManyToOne
-    @JoinColumn(name = "client", nullable = false)
+    @OneToOne(mappedBy = "account")
     private Client client;
 
     @Digits(integer = 10, fraction = 2)
     private BigDecimal amount;
+
+    @OneToMany(mappedBy = "account")
+    private List<Payment> payments;
+
 }

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ClientService {
     List<Client> findAll();
+
+    Client findByMerchantId(String merchantId);
 }
