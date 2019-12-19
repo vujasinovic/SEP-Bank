@@ -3,7 +3,10 @@ package rs.ac.ftn.uns.sep.bank.model;
 import lombok.Data;
 
 import javax.persistence.*;
+
 import javax.validation.constraints.Size;
+import javax.validation.constraints.Max;
+import java.util.Set;
 
 @Entity
 @Data
@@ -25,4 +28,5 @@ public class Client {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id", unique = true)
     private Account account;
+
 }

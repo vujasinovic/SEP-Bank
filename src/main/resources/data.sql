@@ -2,6 +2,7 @@ insert into Account(id, amount) values (1, 140.00);
 insert into Account(id, amount) values (2, 320.91);
 insert into Account(id, amount) values (3, 321.22);
 
+
 insert into Client(id, first_name, last_name, merchant_id, merchant_password, account_id) values (1, 'John', 'Doe', 'merchant1', 'merchant1_password', 1);
 insert into Client(id, first_name, last_name, merchant_id, merchant_password, account_id) values (2, 'Anthony', 'Brambulini', 'merchant2', 'merchant2_password', 2);
 insert into Client(id, first_name, last_name, merchant_id, merchant_password, account_id) values (3, 'Felattio', 'Penana', 'merchant3', 'merchant3_password', 3);
