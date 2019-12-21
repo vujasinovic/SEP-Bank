@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.Max;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,7 +16,7 @@ public class KpRequestDto {
     @Max(value = 100)
     private String merchantPassword;
 
-    private BigInteger amount;
+    private BigDecimal amount;
 
     private Integer merchantOrderId;
 

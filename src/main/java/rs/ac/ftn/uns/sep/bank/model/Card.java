@@ -1,6 +1,8 @@
 package rs.ac.ftn.uns.sep.bank.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;

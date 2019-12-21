@@ -19,4 +19,9 @@ public class CardServiceImpl implements CardService {
     public List<Card> findAll() {
         return cardRepository.findAll();
     }
+
+    @Override
+    public Card findByPan(String pan) {
+        return cardRepository.findByPan(pan);
+    }
 }

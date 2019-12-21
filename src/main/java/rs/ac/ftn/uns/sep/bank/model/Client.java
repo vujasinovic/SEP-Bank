@@ -1,6 +1,7 @@
 package rs.ac.ftn.uns.sep.bank.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
@@ -25,6 +26,8 @@ public class Client {
     @Size(max = 100)
     private String merchantPassword;
 
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id", unique = true)
     private Account account;
