@@ -29,6 +29,7 @@ public class Account {
     @Digits(integer = 10, fraction = 2)
     private BigDecimal amount;
 
+
     @JsonIgnore
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "account")

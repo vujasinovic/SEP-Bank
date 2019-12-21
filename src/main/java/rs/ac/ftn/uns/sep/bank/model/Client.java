@@ -1,6 +1,5 @@
 package rs.ac.ftn.uns.sep.bank.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

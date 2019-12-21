@@ -28,4 +28,5 @@ public class Payment {
     private String failedUrl;
 
     private String errorUrl;
+
 }

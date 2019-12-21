@@ -2,6 +2,7 @@ package rs.ac.ftn.uns.sep.bank.service.implementation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rs.ac.ftn.uns.sep.bank.model.Account;
@@ -19,6 +20,7 @@ import rs.ac.ftn.uns.sep.bank.utils.dto.PaymentDto;
 
 import java.util.List;
 import java.util.Objects;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service

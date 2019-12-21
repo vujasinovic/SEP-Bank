@@ -46,5 +46,4 @@ public class PaymentController {
     public Map<String, String> postCardData(CardDataDto cardDataDto, @PathVariable String url) {
         return Map.of("url", paymentService.submitCardData(cardDataDto, url));
     }
-
 }
