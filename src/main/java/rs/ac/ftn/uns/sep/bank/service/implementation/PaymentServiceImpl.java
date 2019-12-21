@@ -19,6 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
+    public static final String NOT_FOUND = "notFound";
     private final Logger LOGGER = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     @Autowired
@@ -43,22 +44,31 @@ public class PaymentServiceImpl implements PaymentService {
 
         PaymentDto response = new PaymentDto();
 
+        LOGGER.info("Finding client by provided merchant id: " + kpRequestDto.getMerchantId());
         Client client = clientService.findByMerchantId(kpRequestDto.getMerchantId());
 
         Payment savedPayment = new Payment();
 
         if (client == null) {
             LOGGER.error("Client with provided merchant id was not found.");
+            response.setUrl(NOT_FOUND);
         } else {
-            LOGGER.info(String.format("Found client with id: %s", client.getMerchantId()));
+            LOGGER.info(String.format("Found client: %s", client.getMerchantId()));
 
+            LOGGER.info("Creating payment...");
             payment.setUrl(generateTimeStamp());
+            LOGGER.info("Generated payment URL: " + payment.getUrl());
+
             payment.setAmount(kpRequestDto.getAmount());
+            LOGGER.info("Payment amount: " + payment.getAmount());
+
             payment.setMerchant(client.getAccount());
+            LOGGER.info("Payment recipient: " + payment.getMerchant());
 
             payment.setSuccessUrl(kpRequestDto.getSuccessUrl());
             payment.setFailedUrl(kpRequestDto.getFailedUrl());
             payment.setErrorUrl(kpRequestDto.getErrorUrl());
+            LOGGER.info(String.format("Success url: %s, Failed url: %s, Error url: %s", payment.getSuccessUrl(), payment.getFailedUrl(), payment.getErrorUrl()));
 
             LOGGER.info("Persisting payment.");
 
@@ -67,8 +77,11 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         LOGGER.info("Generating response with payment url " + savedPayment.getUrl());
+
         response.setUrl(savedPayment.getUrl());
         response.setId(savedPayment.getId());
+
+        LOGGER.info("Generated response: " + response.toString());
 
         return response;
     }
@@ -118,7 +131,6 @@ public class PaymentServiceImpl implements PaymentService {
         LOGGER.info("Found payment: " + payment.toString());
 
 
-
         Account merchant = payment.getMerchant();
 
         Account account = card.getAccount();
@@ -131,11 +143,11 @@ public class PaymentServiceImpl implements PaymentService {
             LOGGER.info("Payer has enough money.");
             redirectUrl = payment.getSuccessUrl();
 
-            LOGGER.info(String.format("Subtracting payment amount from payer: %s %s", account.getClient().getFirstName(), account.getClient().getLastName()));
+            LOGGER.info(String.format("Subtracting payment amount from payer: %s %s (amount: %.2f)", account.getClient().getFirstName(), account.getClient().getLastName(), account.getAmount()));
             account.setAmount(account.getAmount().subtract(payment.getAmount()));
             LOGGER.info("Payer account amount after subtraction: " + account.getAmount());
 
-            LOGGER.info(String.format("Adding payment amount to recipient: %s %s", merchant.getClient().getFirstName(), merchant.getClient().getLastName()));
+            LOGGER.info(String.format("Adding payment amount to recipient: %s %s (amount: %.2f)", merchant.getClient().getFirstName(), merchant.getClient().getLastName(), merchant.getAmount()));
             merchant.setAmount(merchant.getAmount().add(payment.getAmount()));
             LOGGER.info("Recipient account amount after addition: " + merchant.getAmount());
 
