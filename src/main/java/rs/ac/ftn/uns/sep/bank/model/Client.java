@@ -5,7 +5,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+
 import javax.validation.constraints.Size;
+import javax.validation.constraints.Max;
+import java.util.Set;
 
 @Entity
 @Data
@@ -29,4 +32,5 @@ public class Client {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id", unique = true)
     private Account account;
+
 }

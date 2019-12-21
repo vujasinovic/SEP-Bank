@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Set;
 
@@ -32,4 +33,5 @@ public class Account {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "account")
     private List<Payment> payments;
+
 }
