@@ -17,9 +17,9 @@ public class Payment {
 
     private BigDecimal amount;
 
-    @ManyToOne
-    private Account account;
-
+    /**
+     * Filed that represents user that is getting some amount
+     */
     @ManyToOne
     private Account merchant;
 

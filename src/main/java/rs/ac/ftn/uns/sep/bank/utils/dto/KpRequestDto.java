@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.Max;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,7 +21,7 @@ public class KpRequestDto {
 
     private Integer merchantOrderId;
 
-    private LocalDateTime merchantTimestamp;
+    private Date merchantTimestamp;
 
     private String successUrl;
 

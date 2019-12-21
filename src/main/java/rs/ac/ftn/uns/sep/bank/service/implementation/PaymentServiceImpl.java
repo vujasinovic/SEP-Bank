@@ -41,7 +41,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto handleKpRequest(KpRequestDto kpRequestDto) {
-        LOGGER.debug("Processing KP request");
+        LOGGER.info("Processing KP request");
         Payment payment = new Payment();
 
         PaymentDto response = new PaymentDto();
@@ -51,19 +51,25 @@ public class PaymentServiceImpl implements PaymentService {
         Payment savedPayment = new Payment();
 
         if (client != null) {
-            LOGGER.debug(String.format("Found client with id: %s", client.getMerchantId()));
+            LOGGER.info(String.format("Found client with id: %s", client.getMerchantId()));
 
             payment.setUrl(generateTimeStamp());
             payment.setAmount(kpRequestDto.getAmount());
-            payment.setAccount(client.getAccount());
+            payment.setMerchant(client.getAccount());
 
-            LOGGER.debug("Persisting payment.");
+            payment.setSuccessUrl(kpRequestDto.getSuccessUrl());
+            payment.setFailedUrl(kpRequestDto.getFailedUrl());
+            payment.setErrorUrl(kpRequestDto.getErrorUrl());
+
+            LOGGER.info("Persisting payment.");
 
             savedPayment = paymentRepository.save(payment);
-            LOGGER.debug("Payment persisted successfully");
+            LOGGER.info("Payment persisted successfully");
+        } else {
+            LOGGER.error("Client with provided merchant id was not found.");
         }
 
-        LOGGER.debug("Generating response..");
+        LOGGER.info("Generating response..");
         response.setUrl(savedPayment.getUrl());
         response.setId(savedPayment.getId());
 
