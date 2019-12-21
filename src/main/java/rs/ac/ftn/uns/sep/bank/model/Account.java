@@ -2,6 +2,7 @@ package rs.ac.ftn.uns.sep.bank.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -17,7 +18,8 @@ public class Account {
     private Long id;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "account")
+    @EqualsAndHashCode.Exclude
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account")
     private Set<Card> cards;
 
     @OneToOne(mappedBy = "account")
@@ -26,6 +28,8 @@ public class Account {
     @Digits(integer = 10, fraction = 2)
     private BigDecimal amount;
 
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "account")
     private List<Payment> payments;
 }
