@@ -1,0 +1,3 @@
+[submodule "src/main/app"]
+	path = src/main/app
+	url = https://github.com/vujasinovic/SEP-Bank-Client.git

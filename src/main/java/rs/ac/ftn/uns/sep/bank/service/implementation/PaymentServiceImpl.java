@@ -2,25 +2,29 @@ package rs.ac.ftn.uns.sep.bank.service.implementation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import rs.ac.ftn.uns.sep.bank.model.*;
+import rs.ac.ftn.uns.sep.bank.properties.BankProperties;
 import rs.ac.ftn.uns.sep.bank.repository.PaymentRepository;
 import rs.ac.ftn.uns.sep.bank.service.*;
 import rs.ac.ftn.uns.sep.bank.utils.dto.CardDataDto;
-import rs.ac.ftn.uns.sep.bank.utils.dto.KpRequestDto;
-import rs.ac.ftn.uns.sep.bank.utils.dto.PaymentDto;
+import rs.ac.uns.ftn.sep.commons.dto.ExternalBankPaymentResponse;
+import rs.ac.uns.ftn.sep.commons.dto.ExternalBankPaymentRequest;
 
 import java.util.List;
-import java.util.Objects;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
-    public static final String NOT_FOUND = "notFound";
+    private static final String PAYMENT_URL_F = "%s/card/%s";
+
     private final Logger LOGGER = LoggerFactory.getLogger(PaymentServiceImpl.class);
+    public static final String NOT_FOUND = "notFound";
+
+    @Value("${spring.application.name}")
+    private String appName;
 
     @Autowired
     private PaymentRepository paymentRepository;
@@ -37,12 +41,15 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private TransactionService transactionService;
 
+    @Autowired
+    private BankProperties properties;
+
     @Override
-    public PaymentDto handleKpRequest(KpRequestDto kpRequestDto) {
+    public ExternalBankPaymentResponse handleKpRequest(ExternalBankPaymentRequest kpRequestDto) {
         LOGGER.info("Processing KP request: " + kpRequestDto);
         Payment payment = new Payment();
 
-        PaymentDto response = new PaymentDto();
+        ExternalBankPaymentResponse response = new ExternalBankPaymentResponse();
 
         LOGGER.info("Finding client by provided merchant id: " + kpRequestDto.getMerchantId());
         Client client = clientService.findByMerchantId(kpRequestDto.getMerchantId());
@@ -78,7 +85,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         LOGGER.info("Generating response with payment url " + savedPayment.getUrl());
 
-        response.setUrl(savedPayment.getUrl());
+        response.setUrl(generateRedirectUrl(savedPayment.getUrl()));
         response.setId(savedPayment.getId());
 
         LOGGER.info("Generated response: " + response.toString());
@@ -174,5 +181,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     private String generateTimeStamp() {
         return String.valueOf(System.currentTimeMillis() + ThreadLocalRandom.current().nextInt(10, 99));
+    }
+
+    private String generateRedirectUrl(String code) {
+        return String.format(PAYMENT_URL_F, properties.getUrl(), code);
     }
 }

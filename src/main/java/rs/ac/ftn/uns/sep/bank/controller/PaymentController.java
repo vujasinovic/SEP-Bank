@@ -9,8 +9,8 @@ import rs.ac.ftn.uns.sep.bank.service.PaymentService;
 import rs.ac.ftn.uns.sep.bank.service.implementation.AccountServiceImpl;
 import rs.ac.ftn.uns.sep.bank.service.implementation.PaymentServiceImpl;
 import rs.ac.ftn.uns.sep.bank.utils.dto.CardDataDto;
-import rs.ac.ftn.uns.sep.bank.utils.dto.KpRequestDto;
-import rs.ac.ftn.uns.sep.bank.utils.dto.PaymentDto;
+import rs.ac.uns.ftn.sep.commons.dto.ExternalBankPaymentResponse;
+import rs.ac.uns.ftn.sep.commons.dto.ExternalBankPaymentRequest;
 
 import java.util.Map;
 
@@ -30,7 +30,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public PaymentDto postPaymentRequest(KpRequestDto kpRequestDto) {
+    public ExternalBankPaymentResponse postPaymentRequest(@RequestBody ExternalBankPaymentRequest kpRequestDto) {
         logger.debug("Requesting payment");
         logger.debug(String.format("Request: \n %s", kpRequestDto.toString()));
 
