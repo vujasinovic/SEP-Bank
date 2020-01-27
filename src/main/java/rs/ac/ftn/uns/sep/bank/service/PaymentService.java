@@ -12,8 +12,5 @@ public interface PaymentService {
 
     Payment findByUrl(String url);
 
-    ExternalBankPaymentResponse handleKpRequest(ExternalBankPaymentRequest kpRequestDto);
-
     String submitCardData(CardDataDto cardDataDto, String url);
-
 }
